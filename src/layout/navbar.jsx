@@ -1,19 +1,28 @@
-import React from "react";
-import "./navbar.css";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import "./layout.css";
+import { isLoginContext } from "../App";
 function Navbar() {
+  const isLoggedIn = useContext(isLoginContext);
   return (
     <>
       <nav>
-        <li>Task Manager</li>
-        <li>
-          <a href="home">Home</a>
-        </li>
-        <li>
-          <a href="mytasks">My Tasks</a>
-        </li>
-        <li>
-          <a href="about">About</a>
-        </li>
+        <span>Task Manager</span>
+        <Link className="nav-link" to="/home">
+          Home
+        </Link>
+        {isLoggedIn ? (
+          <Link className="nav-link" to="/mytasks">
+            My Tasks
+          </Link>
+        ) : (
+          <Link className="nav-link" to="/mytasks">
+            Login
+          </Link>
+        )}
+        <Link className="nav-link" to="/about">
+          About
+        </Link>
       </nav>
     </>
   );

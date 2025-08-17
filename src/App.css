@@ -1,0 +1,63 @@
+h1 {
+  color: var(--prime-color);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-color);
+  height: 100vh;
+}
+
+.app-inner-text {
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--prime-color);
+  color: var(--header-footer-color);
+  border: none;
+  padding: 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: block;
+  &:hover {
+    background-color: var(--prime-color-hover);
+  }
+}
+
+input {
+  width: 250px;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+
+  font-size: 1em;
+  &:focus {
+    outline: none;
+    border-color: var(--prime-color);
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: 2em;
+  align-items: center;
+  button {
+    margin: 1em 0;
+    width: fit-content;
+    font-size: 0.9em;
+  }
+  .sign-up {
+    cursor: pointer;
+    color: var(--prime-color);
+  }
+}

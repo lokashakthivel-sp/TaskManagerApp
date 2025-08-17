@@ -6,7 +6,6 @@ import Layout from "./layout/layout.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Layout />
     <App />
   </StrictMode>
 );

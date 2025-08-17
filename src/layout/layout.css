@@ -1,8 +1,38 @@
 footer {
-  background-color: #020202;
+  background-color: var(--header-footer-color);
   position: fixed;
   width: 100%;
   bottom: 0;
   right: 0;
+  p {
+    padding: 1em 0;
+    text-align: center;
+    color: var(--text-color);
+  }
 }
 
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: var(--header-footer-color);
+  font-size: 1.2em;
+  span {
+    margin-right: auto;
+    margin-left: 1em;
+    color: var(--prime-color);
+    font-weight: 500;
+  }
+  .nav-link {
+    color: var(--text-color);
+    padding: 1em;
+    text-decoration: none;
+    transition: all 0.5s;
+    &:hover {
+      background-color: var(--prime-color-hover);
+    }
+  }
+}

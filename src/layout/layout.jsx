@@ -1,13 +1,14 @@
 import React from "react";
 import "./layout.css";
 import Navbar from "./navbar";
+import Footer from "./footer";
+import { Outlet } from "react-router-dom";
 function Layout() {
   return (
     <>
       <Navbar />
-      <footer>
-        <p>Copyright 2025</p>
-      </footer>
+      <Outlet />
+      <Footer />
     </>
   );
 }
