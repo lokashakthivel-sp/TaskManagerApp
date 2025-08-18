@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth } from "../server/server";
+//import  from "../server/server";
 
 function Login({ setIsLoggedIn }) {
   //to show sign up page
