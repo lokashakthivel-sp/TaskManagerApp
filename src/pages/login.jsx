@@ -1,20 +1,23 @@
 import { useState, useEffect } from "react";
-import { auth } from "../auth/auth";
+import { auth } from "../server/server";
 
 function Login({ setIsLoggedIn }) {
+  //to show sign up page
   let [isNewUser, setIsNewUser] = useState(false);
 
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
 
-  // Load users from localStorage or fallback to auth
+  // Load users from localStorage or if not available use to auth
   const getUsers = () => {
     const users = localStorage.getItem("users");
+    //since it users is string type we need to parse to JSON object style
     return users ? JSON.parse(users) : auth;
   };
 
   const setUsers = (users) => {
+    //in local storage only strings can be stored so we need to convert the JSON objects into strings
     localStorage.setItem("users", JSON.stringify(users));
   };
 
@@ -24,7 +27,7 @@ function Login({ setIsLoggedIn }) {
     let users = getUsers();
 
     console.log(users);
-
+    
     let flag = 0;
     for (let user of users) {
       if (
@@ -34,6 +37,7 @@ function Login({ setIsLoggedIn }) {
       ) {
         setIsLoggedIn(true);
         localStorage.setItem("isLocalLoggedIn", "true");
+        //to access the username in my tasks page
         localStorage.setItem("loggedInUser",username);
         flag = 1;
       }
@@ -61,8 +65,6 @@ function Login({ setIsLoggedIn }) {
     setUsername("");
     setUsers(users);
 
-    console.log(users);
-
     setIsNewUser(false);
   };
 
@@ -70,7 +72,8 @@ function Login({ setIsLoggedIn }) {
     <>
       <div className="app-container">
         <form className="login-form" action="">
-          {isNewUser ? <h1>Sign Up</h1> : <h1>Login</h1>}
+          {//conditionally rendering sign up or login in the heading
+          isNewUser ? <h1>Sign Up</h1> : <h1>Login</h1>}
           <input
             type="text"
             value={username}
@@ -95,7 +98,8 @@ function Login({ setIsLoggedIn }) {
             }}
             placeholder="Enter password"
           />
-          {isNewUser ? (
+          {//conditionally rendering sign up or login in the button
+          isNewUser ? (
             <button type="submit" onClick={handleSignUp}>
               Sign Up
             </button>
