@@ -10,10 +10,12 @@ import "./App.css";
 
 export const isLoginContext = createContext();
 
+const basename = import.meta.env.DEV ? "/" : "/TaskManagerApp/";
+
 function App() {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route
           path="/"

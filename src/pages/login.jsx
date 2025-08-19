@@ -21,6 +21,7 @@ function Login({ setIsLoggedIn }) {
     localStorage.setItem("users", JSON.stringify(users));
   };
 
+  
   const handleLogin = (e) => {
     //TODO: add proper login functionality, here using just a fake authentication
     e.preventDefault();
