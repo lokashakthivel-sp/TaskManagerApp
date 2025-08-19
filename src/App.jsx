@@ -10,11 +10,15 @@ import "./App.css";
 
 export const isLoginContext = createContext();
 
+
+//in dev the vite server loads from root path / but in deployment in github pages it serves from the /<repo-name>
+//so based on the env need to give a basename
 const basename = import.meta.env.DEV ? "/" : "/TaskManagerApp/";
 
 function App() {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
+    //the basename prop automatically prefixes all routes with the required path 
     <BrowserRouter basename={basename}>
       <Routes>
         <Route
