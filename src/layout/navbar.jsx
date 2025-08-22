@@ -16,7 +16,7 @@ function Navbar() {
             My Tasks
           </Link>
         ) : (
-          <Link className="nav-link" to="/mytasks">
+          <Link className="nav-link" to="/login">
             Login
           </Link>
         )}

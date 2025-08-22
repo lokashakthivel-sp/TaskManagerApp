@@ -10,15 +10,16 @@ import "./App.css";
 
 export const isLoginContext = createContext();
 
-
 //in dev the vite server loads from root path / but in deployment in github pages it serves from the /<repo-name>
 //so based on the env need to give a basename
 const basename = import.meta.env.DEV ? "/" : "/TaskManagerApp/";
 
 function App() {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
+  let [globalUsername, setGlobalUsername] = useState();
+  //! navigation not working correctly working
   return (
-    //the basename prop automatically prefixes all routes with the required path 
+    //the basename prop automatically prefixes all routes with the required path
     <BrowserRouter basename={basename}>
       <Routes>
         <Route
@@ -30,15 +31,24 @@ function App() {
           }
         >
           <Route index element={<Home />}></Route>
+
           <Route path="home" element={<Home />}></Route>
           <Route
             path="mytasks"
             element={
-              isLoggedIn ? (
-                <MyTasks setIsLoggedIn={setIsLoggedIn} />
-              ) : (
-                <Login setIsLoggedIn={setIsLoggedIn} />
-              )
+              <MyTasks
+                setIsLoggedIn={setIsLoggedIn}
+                globalUsername={globalUsername}
+              />
+            }
+          ></Route>
+          <Route
+            path="login"
+            element={
+              <Login
+                setIsLoggedIn={setIsLoggedIn}
+                setGlobalUsername={setGlobalUsername}
+              />
             }
           ></Route>
           <Route path="about" element={<About />}></Route>

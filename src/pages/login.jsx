@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-//import  from "../server/server";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login({ setIsLoggedIn }) {
+function Login({ setIsLoggedIn,setGlobalUsername }) {
+  const navigate = useNavigate();
   //to show sign up page
   let [isNewUser, setIsNewUser] = useState(false);
 
@@ -9,42 +10,48 @@ function Login({ setIsLoggedIn }) {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
 
-  // Load users from localStorage or if not available use to auth
-  const getUsers = () => {
-    const users = localStorage.getItem("users");
-    //since it users is string type we need to parse to JSON object style
-    return users ? JSON.parse(users) : auth;
-  };
-
-  const setUsers = (users) => {
-    //in local storage only strings can be stored so we need to convert the JSON objects into strings
-    localStorage.setItem("users", JSON.stringify(users));
-  };
-
-  
-  const handleLogin = (e) => {
-    //TODO: add proper login functionality, here using just a fake authentication
+  const handleSignUp = async (e) => {
+        //TODO: some error here
     e.preventDefault();
-    let users = getUsers();
 
-    console.log(users);
-    
-    let flag = 0;
-    for (let user of users) {
-      if (
-        user.username === username &&
-        user.email === email &&
-        user.password === password
-      ) {
-        setIsLoggedIn(true);
-        localStorage.setItem("isLocalLoggedIn", "true");
-        //to access the username in my tasks page
-        localStorage.setItem("loggedInUser",username);
-        flag = 1;
-      }
-      if (flag) break;
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password, email }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data.username); // <-- Username from the server
+      setIsNewUser(false);
+      setIsLoggedIn(true);
+      setGlobalUsername(data.username);
+      navigate("/mytasks");
+    } else {
+      setEmail("");
+      setPassword("");
+      setUsername("");
+      alert("Error during sign up");
     }
-    if (!flag) {
+  };
+
+  const handleLogin = async (e) => {
+    //TODO: some error here
+    e.preventDefault();
+
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password, email }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data.username); // <-- This is the username from the server
+      setIsLoggedIn(true);
+      setGlobalUsername(data.username);
+      navigate("/mytasks");
+    } else {
       setEmail("");
       setPassword("");
       setUsername("");
@@ -52,29 +59,14 @@ function Login({ setIsLoggedIn }) {
     }
   };
 
-  const handleSignUp = (e) => {
-    //TODO: add proper sign up functionality, here using just a fake authentication
-    e.preventDefault();
-    let users = getUsers();
-    users.push({
-      username: username,
-      email: email,
-      password: password,
-    });
-    setEmail("");
-    setPassword("");
-    setUsername("");
-    setUsers(users);
-
-    setIsNewUser(false);
-  };
-
   return (
     <>
       <div className="app-container">
-        <form className="login-form" action="">
-          {//conditionally rendering sign up or login in the heading
-          isNewUser ? <h1>Sign Up</h1> : <h1>Login</h1>}
+        <form className="login-form">
+          {
+            //conditionally rendering sign up or login in the heading
+            isNewUser ? <h1>Sign Up</h1> : <h1>Login</h1>
+          }
           <input
             type="text"
             value={username}
@@ -99,27 +91,44 @@ function Login({ setIsLoggedIn }) {
             }}
             placeholder="Enter password"
           />
-          {//conditionally rendering sign up or login in the button
-          isNewUser ? (
-            <button type="submit" onClick={handleSignUp}>
-              Sign Up
-            </button>
-          ) : (
-            <button type="submit" onClick={handleLogin}>
-              Login
-            </button>
-          )}
-          <p>
-            New user?{" "}
-            <span
-              onClick={() => {
-                setIsNewUser(true);
-              }}
-              className="sign-up"
-            >
-              Sign up!
-            </span>
-          </p>
+          {
+            //conditionally rendering sign up or login in the button and also to switch between login and sign up forms
+            isNewUser ? (
+              <>
+                <button type="submit" onClick={handleSignUp}>
+                  Sign Up
+                </button>
+                <p>
+                  Have an account?{" "}
+                  <span
+                    onClick={() => {
+                      setIsNewUser(false);
+                    }}
+                    className="sign-up"
+                  >
+                    Login!
+                  </span>
+                </p>
+              </>
+            ) : (
+              <>
+                <button type="submit" onClick={handleLogin}>
+                  Login
+                </button>
+                <p>
+                  New user?{" "}
+                  <span
+                    onClick={() => {
+                      setIsNewUser(true);
+                    }}
+                    className="sign-up"
+                  >
+                    Sign up!
+                  </span>
+                </p>
+              </>
+            )
+          }
         </form>
       </div>
     </>
