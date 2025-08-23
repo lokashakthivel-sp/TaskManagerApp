@@ -50,7 +50,7 @@ app.post("/api/signup", (req, res) => {
           .status(400)
           .json({ error: "Username or email already exists" });
       }
-      res.json({ id: this.lastID, username });
+      res.json({ username });
     }
   );
 });
@@ -75,6 +75,7 @@ app.post("/api/login", (req, res) => {
   );
 });
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
   console.log("Server running");
 });

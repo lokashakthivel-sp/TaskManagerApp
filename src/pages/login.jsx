@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Login({ setIsLoggedIn,setGlobalUsername }) {
+function Login({ setIsLoggedIn, setGlobalUsername }) {
   const navigate = useNavigate();
   //to show sign up page
   let [isNewUser, setIsNewUser] = useState(false);
@@ -11,7 +11,6 @@ function Login({ setIsLoggedIn,setGlobalUsername }) {
   let [password, setPassword] = useState("");
 
   const handleSignUp = async (e) => {
-        //TODO: some error here
     e.preventDefault();
 
     const res = await fetch("/api/signup", {
@@ -20,9 +19,9 @@ function Login({ setIsLoggedIn,setGlobalUsername }) {
       body: JSON.stringify({ username, password, email }),
     });
 
+    const data = await res.json();
     if (res.ok) {
-      const data = await res.json();
-      console.log(data.username); // <-- Username from the server
+      console.log(data.username); // Username from the server
       setIsNewUser(false);
       setIsLoggedIn(true);
       setGlobalUsername(data.username);
@@ -31,12 +30,11 @@ function Login({ setIsLoggedIn,setGlobalUsername }) {
       setEmail("");
       setPassword("");
       setUsername("");
-      alert("Error during sign up");
+      alert(data.error);
     }
   };
 
   const handleLogin = async (e) => {
-    //TODO: some error here
     e.preventDefault();
 
     const res = await fetch("/api/login", {
@@ -45,9 +43,9 @@ function Login({ setIsLoggedIn,setGlobalUsername }) {
       body: JSON.stringify({ username, password, email }),
     });
 
+    const data = await res.json();
     if (res.ok) {
-      const data = await res.json();
-      console.log(data.username); // <-- This is the username from the server
+      console.log(data.username); // username from the server
       setIsLoggedIn(true);
       setGlobalUsername(data.username);
       navigate("/mytasks");
@@ -55,7 +53,7 @@ function Login({ setIsLoggedIn,setGlobalUsername }) {
       setEmail("");
       setPassword("");
       setUsername("");
-      alert("Invalid user credentials entered");
+      alert(data.error);
     }
   };
 

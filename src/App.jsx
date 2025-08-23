@@ -16,8 +16,7 @@ const basename = import.meta.env.DEV ? "/" : "/TaskManagerApp/";
 
 function App() {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
-  let [globalUsername, setGlobalUsername] = useState();
-  //! navigation not working correctly working
+  let [globalUsername, setGlobalUsername] = useState("");
   return (
     //the basename prop automatically prefixes all routes with the required path
     <BrowserRouter basename={basename}>
@@ -39,6 +38,7 @@ function App() {
               <MyTasks
                 setIsLoggedIn={setIsLoggedIn}
                 globalUsername={globalUsername}
+                setGlobalUsername={setGlobalUsername}
               />
             }
           ></Route>

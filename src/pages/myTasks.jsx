@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function MyTasks({ setIsLoggedIn, globalUsername }) {
+function MyTasks({ setIsLoggedIn, globalUsername, setGlobalUsername }) {
   const navigate = useNavigate();
   const handleLogout = (e) => {
     e.preventDefault();
     //TODO: add proper logout functionality
     setIsLoggedIn(false);
+    setGlobalUsername("");
     navigate("/login");
   };
   return (
