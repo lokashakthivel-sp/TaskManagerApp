@@ -36,18 +36,21 @@ app.use(json());
 //if false cant access them, uses built in query string lib
 app.use(urlencoded({ extended: true }));
 
-if (process.env.NODE_ENV === "production") {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  });
 }
 //
 /*global process */
 
 const envFile =
-  process.env.NODE_ENV === "production" ? "../.env.prod" : "../.env.dev";
-dotenv.config({ path: envFile });
+  process.env.NODE_ENV === "production" ? ".env.prod" : ".env.dev";
+dotenv.config({ path: path.join(__dirname, "..", envFile) });
 
 console.log(process.env.POSTGRES_URL, process.env.PORT, process.env.NODE_ENV);
 
