@@ -15,9 +15,12 @@ import { Pool } from "pg";
 /* import sqlite3 from "sqlite3";
 sqlite3.verbose(); */
 
-//Cross Origin Resource Sharing - cros
+//Cross Origin Resource Sharing - cors
 //used to allow cross origin (diff domain) accessing eg: react runs in PORT:5137(Vite) but if express server runs in PORT:3000 then the requests are blocked by browser
 import cors from "cors";
+
+import path from "path";
+import { fileURLToPath } from "url";
 
 //creating application instance of the express to access .get() , .post()...
 //express - blueprint, app - actual server
@@ -28,19 +31,25 @@ app.use(cors());
 //this middleware allows json parsing
 app.use(json());
 
-//
-/*global process */
-
-const envFile =
-  process.env.NODE_ENV === "production" ? ".env.prod" : ".env.dev";
-dotenv.config({ path: envFile });
-
-console.log(process.env.POSTGRES_URL, process.env.PORT, process.env.NODE_ENV);
-
 //to parse url encoded data ie data submitted thro forms into req.body, node/express cant directly understand raw request bodies as they come as stream of bytes
 //extended : true to access nested objects and arrays, uses  qs lib
 //if false cant access them, uses built in query string lib
 app.use(urlencoded({ extended: true }));
+
+if (process.env.NODE_ENV === "production") {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+}
+//
+/*global process */
+
+const envFile =
+  process.env.NODE_ENV === "production" ? "../.env.prod" : "../.env.dev";
+dotenv.config({ path: envFile });
+
+console.log(process.env.POSTGRES_URL, process.env.PORT, process.env.NODE_ENV);
 
 ////setting up the database
 /* const db = new sqlite3.Database("./users.db");
