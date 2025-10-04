@@ -4,20 +4,22 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "cross-env NODE_ENV=development vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist",
-    "start": "node src/server/server.js"
+    "start": "cross-env NODE_ENV=production node src/api/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^10.0.0",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "pg": "^8.16.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.8.1",
-    "sqlite3": "^5.1.7"
+    "react-router-dom": "^7.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
