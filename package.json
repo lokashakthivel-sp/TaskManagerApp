@@ -2,7 +2,7 @@
   "name": "root",
   "scripts": {
     "install-all": "cd frontend && npm install && cd ../backend && npm install",
-    "build-all": "cd frontend && npx vite build",
+    "build-all": "cd frontend && npm build",
     "start": "cd backend && npm start"
   }
 }
